@@ -1,0 +1,19 @@
+name: appstitch_core
+description: Appstitch's core package
+version: 0.0.1
+homepage: https://apstitch.dev
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  http: ^0.12.2
+  encrypt: ^4.1.0
+  crypto: ^2.1.5
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
