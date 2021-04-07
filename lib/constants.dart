@@ -1,1 +1,1 @@
-final url = "https://api.appstitch.dev/";
+final url = "api.appstitch.dev";

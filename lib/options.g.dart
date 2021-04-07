@@ -8,22 +8,26 @@ part of 'options.dart';
 
 Options _$OptionsFromJson(Map<String, dynamic> json) {
   return Options(
-    appStitchKey: json['appStitchKey'] as String,
-    clientID: json['clientID'] as String,
-  )
-    ..id = json['id'] as String
-    ..amount = json['amount'] as int
-    ..url = json['url'] as String
-    ..initialized = json['initialized'] as bool
-    ..auth_token = json['auth_token'] as String;
+    appStitchKey: json['appStitchKey'] as String?,
+    clientID: json['clientID'] as String?,
+    url: json['url'] as String?,
+    auth_token: json['auth_token'] as String?,
+  )..initialized = json['initialized'] as bool?;
 }
 
-Map<String, dynamic> _$OptionsToJson(Options instance) => <String, dynamic>{
-      'id': instance.id,
-      'amount': instance.amount,
-      'appStitchKey': instance.appStitchKey,
-      'url': instance.url,
-      'clientID': instance.clientID,
-      'initialized': instance.initialized,
-      'auth_token': instance.auth_token,
-    };
+Map<String, dynamic> _$OptionsToJson(Options instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appStitchKey', instance.appStitchKey);
+  writeNotNull('url', instance.url);
+  writeNotNull('clientID', instance.clientID);
+  writeNotNull('initialized', instance.initialized);
+  writeNotNull('auth_token', instance.auth_token);
+  return val;
+}

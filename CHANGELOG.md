@@ -30,3 +30,32 @@
 ## [0.0.7] - Production Release
 
 - Production Ready
+
+## [1.0.0] - Production Release
+
+- Production Ready
+
+## [2.0.0-nullsafety.1] - Prerelease
+
+- Flutter 2.0 Upgrade
+- Sound Null Safety
+
+## [2.0.0-nullsafety.2] - Prerelease
+
+- Make Request fixes
+
+## [2.0.0-nullsafety.3] - Prerelease
+
+- Custom domain option
+
+## [2.0.0-nullsafety.4] - Prerelease
+
+- Custom domain option
+
+## [2.0.0-nullsafety.5] - Prerelease
+
+- Updated dependancy
+
+## [2.0.1-nullsafety.1] - Release
+
+- Cleaned up import usage

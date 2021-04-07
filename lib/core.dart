@@ -1,7 +1,7 @@
 library appstitch_core;
 
-import 'package:appstitch_core/options.dart';
-import 'package:appstitch_core/constants.dart' as constants;
+import 'options.dart';
+import 'constants.dart' as constants;
 import 'package:http/http.dart' as http;
 
 import 'dart:convert';
@@ -13,13 +13,15 @@ import 'package:crypto/crypto.dart';
 import 'package:tuple/tuple.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 
+export 'options.dart';
+
 class Core<T> {
   Core._privateConstructor();
 
   static final Core _instance = Core._privateConstructor();
 
   factory Core() {
-    return _instance;
+    return _instance as Core<T>;
   }
 
   Options _config = Options();
@@ -30,8 +32,11 @@ class Core<T> {
 
   initialize(Options options) {
     _config = options;
+    if (options.url == null) {
+      _config.url = constants.url;
+    }
+
     _config.initialized = true;
-    _config.url = constants.url;
   }
 
   setAuthToken(String token) {
@@ -44,7 +49,7 @@ class Core<T> {
     final payload = {
       "token": _config.auth_token,
     };
-    final result = await makeRequst("admin/clearToken", payload).then((value) {
+    final result = await makeRequest("admin/clearToken", payload).then((value) {
       _config.auth_token = null;
       return _config;
     }).catchError((error) {
@@ -86,7 +91,7 @@ class Core<T> {
       else
         preHash = Uint8List.fromList(password + salt);
 
-      currentHash = md5.convert(preHash).bytes;
+      currentHash = md5.convert(preHash).bytes as Uint8List;
       concatenatedHashes = Uint8List.fromList(concatenatedHashes + currentHash);
       if (concatenatedHashes.length >= 48) enoughBytesForKey = true;
     }
@@ -114,31 +119,33 @@ class Core<T> {
     }
   }
 
-  Future<Map<String, dynamic>> makeRequst(
+  Future<Map<String, dynamic>?> makeRequest(
       String endpoint, Object payload) async {
     final random = new Random();
     int randomNumber = random.nextInt(100000) * random.nextInt(6);
 
-    final url = _config.url + endpoint;
+    // final url = _config.url! + endpoint;
 
     Map<String, String> body = {
-      "payload": encryptAES(json.encode(payload), _config.appStitchKey),
+      "payload": encryptAES(json.encode(payload), _config.appStitchKey!),
     };
 
     if (_config.auth_token != null) {
-      body["auth_token"] = encryptAES(_config.auth_token, _config.appStitchKey);
+      body["auth_token"] =
+          encryptAES(_config.auth_token!, _config.appStitchKey!);
     }
     final nonce = randomNumber.toString();
 
     Map<String, String> headers = {
-      "clientid": _config.clientID,
+      "clientid": _config.clientID!,
       "xasnonce": nonce,
       "content-type": "application/json"
     };
 
     try {
       var response = await http
-          .post(url, headers: headers, body: jsonEncode(body))
+          .post(Uri.https(_config.url!, endpoint),
+              headers: headers, body: jsonEncode(body))
           .then((result) {
         return jsonDecode(result.body) as Map<String, dynamic>;
       });
@@ -146,7 +153,7 @@ class Core<T> {
       return response;
     } catch (err) {
       print(err);
-      return jsonDecode(err) as Map<String, dynamic>;
+      return jsonDecode(err.toString()) as Map<String, dynamic>?;
     }
   }
 }

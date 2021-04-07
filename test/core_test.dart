@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:appstitch_core/core.dart';
-import 'package:appstitch_core/options.dart';
+import '../lib/core.dart';
+import '../lib/options.dart';
 
 void main() {
   final core = Core();
