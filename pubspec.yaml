@@ -1,6 +1,6 @@
 name: appstitch_core
-description: Appstitch's core package. Required for all Appstitch Integrations
-version: 2.0.1-nullsafety.1
+description: Appstitch's core package. Required for all Appstitch integrations
+version: 2.0.2
 homepage: https://appstitch.dev
 
 environment:

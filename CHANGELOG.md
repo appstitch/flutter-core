@@ -59,3 +59,7 @@
 ## [2.0.1-nullsafety.1] - Release
 
 - Cleaned up import usage
+
+## [2.0.2] - Production Release
+
+- Cleaned up import usage
